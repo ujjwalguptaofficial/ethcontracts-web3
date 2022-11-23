@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { ITransactionRequestConfig } from "../interfaces";
+import { ITransactionRequestConfig } from "@ethcontracts/core";
 import { TransactionConfig } from "web3-core";
 
 export const txRequestConfigToWeb3 = (config: ITransactionRequestConfig) => {
