@@ -1,0 +1,23 @@
+{
+  "name": "@ethcontracts/web3",
+  "version": "1.0.0",
+  "description": "Wrapper for web3.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ujjwalguptaofficial/ethcontracts-web3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ujjwalguptaofficial/ethcontracts-web3/issues"
+  },
+  "homepage": "https://github.com/ujjwalguptaofficial/ethcontracts-web3#readme",
+  "dependencies": {
+    "@ethcontracts/core": "file:../ethcontracts/ethcontracts-core-1.0.0.tgz",
+    "web3": "^1.6.0"
+  }
+}
