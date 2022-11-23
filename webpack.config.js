@@ -29,15 +29,17 @@ function getConfig(target) {
         },
         externals: {
             web3: 'web3',
+            '@ethcontracts/core': '@ethcontracts/core',
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.js']
         },
+        target: "node",
         output: {
             path: path.resolve(__dirname, 'dist/'),
             filename: target.name,
-            library: 'EthContractsWeb3',
-            libraryTarget: 'umd'
+            library: target.type === 'var' ? 'EthContractsWeb3' : undefined,
+            libraryTarget: target.type
         },
         plugins: [
             new webpack.BannerPlugin(banner),
