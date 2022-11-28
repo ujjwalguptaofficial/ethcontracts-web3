@@ -1,5 +1,5 @@
-import { BaseContract, ILogger } from "@ethcontracts/core";
 import { Contract } from "web3-eth-contract";
+import { BaseContract, ILogger } from "@ethcontracts/core";
 import { ContractMethod } from "./contract_method";
 
 export class Web3Contract extends BaseContract {

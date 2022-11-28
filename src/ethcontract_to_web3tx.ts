@@ -1,6 +1,6 @@
 import Web3 from "web3";
-import { ITransactionRequestConfig } from "@ethcontracts/core";
 import { TransactionConfig } from "web3-core";
+import { ITransactionRequestConfig } from "@ethcontracts/core";
 
 export const txRequestConfigToWeb3 = (config: ITransactionRequestConfig) => {
     if (config) {
@@ -9,4 +9,4 @@ export const txRequestConfigToWeb3 = (config: ITransactionRequestConfig) => {
         config.type = toHex(config.type as any) as any;
     }
     return config as TransactionConfig;
-}
+};

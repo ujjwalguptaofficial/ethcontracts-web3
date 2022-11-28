@@ -2,6 +2,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const banner = require('./build_helper/licence');
 const webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
 
 
 const isDev = process.env.NODE_ENV === "development";
@@ -27,10 +28,7 @@ function getConfig(target) {
             },
             ]
         },
-        externals: {
-            web3: 'web3',
-            '@ethcontracts/core': '@ethcontracts/core',
-        },
+        externals: [nodeExternals()],
         resolve: {
             extensions: ['.tsx', '.ts', '.js']
         },

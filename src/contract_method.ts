@@ -1,17 +1,12 @@
-import Web3 from "web3";
 import { Contract, } from "web3-eth-contract";
 import { PromiEvent } from "web3-core";
-import { BaseContractMethod, ILogger, ITransactionRequestConfig, TYPE_GET_TRANSACTION_HASH, TYPE_GET_TRANSACTION_RECEIPT } from "@ethcontracts/core";
 import { txRequestConfigToWeb3 } from "./ethcontract_to_web3tx";
+import { ILogger, ITransactionRequestConfig, BaseContractMethod, TYPE_GET_TRANSACTION_HASH, TYPE_GET_TRANSACTION_RECEIPT } from "@ethcontracts/core";
 
 export class ContractMethod extends BaseContractMethod {
 
     constructor(public address, logger: ILogger, private method: any) {
         super(logger);
-    }
-
-    toHex(value) {
-        return value != null ? Web3.utils.toHex(value) : value;
     }
 
     read<T>(tx: ITransactionRequestConfig): Promise<T> {
@@ -38,7 +33,7 @@ export class ContractMethod extends BaseContractMethod {
         promiseResult.once("transactionHash", onTransactionHash)
             .once("receipt", onTransactionReceipt)
             .once("error", onTransactionError).
-            once("error", onTransactionReceiptError)
+            once("error", onTransactionReceiptError);
 
         const getTransactionHash: TYPE_GET_TRANSACTION_HASH = () => {
             return txHashPromise;
@@ -53,5 +48,9 @@ export class ContractMethod extends BaseContractMethod {
         return this.method.estimateGas(
             txRequestConfigToWeb3(tx) as any
         );
+    }
+
+    encodeABI() {
+        return this.method.encodeABI();
     }
 }
