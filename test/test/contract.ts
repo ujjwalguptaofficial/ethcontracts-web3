@@ -4,6 +4,8 @@ import { ethers } from "hardhat";
 import { IDeployedPayload } from "./interface";
 import toWeb3Provider from "ethers-to-web3";
 import { Web3Client } from "@ethcontracts/web3";
+import { testERC20 } from "./erc20";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 describe("contracts", () => {
 
@@ -31,7 +33,7 @@ describe("contracts", () => {
     await payload.erc20Token1.mint(payload.signer4.address, 900000000000);
   });
 
-  describe("read only tx", () => {
+  describe("read only tx with read only provider", () => {
     let erc20: ERC20;
 
     before(async () => {
@@ -68,6 +70,14 @@ describe("contracts", () => {
 
       // }
     })
+  })
+
+  describe("erc20", () => {
+    testERC20(
+      payload, (user: SignerWithAddress) => {
+        return new Web3Client(toWeb3Provider(user));
+      }
+    )
   })
 
 })
