@@ -30,10 +30,8 @@
     "url": "https://github.com/ujjwalguptaofficial/ethcontracts-web3/issues"
   },
   "homepage": "https://github.com/ujjwalguptaofficial/ethcontracts-web3#readme",
-  "dependencies": {
-    "@ethcontracts/core": "file:../ethcontracts/ethcontracts-core-1.1.4.tgz"
-  },
   "devDependencies": {
+    "@ethcontracts/core": "file:../ethcontracts/ethcontracts-core-1.1.4.tgz",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "ts-loader": "^9.4.1",
@@ -45,5 +43,8 @@
   },
   "peerDependencies": {
     "web3": "^1.6.0"
+  },
+  "dependencies": {
+    "ethers": "^5.7.2"
   }
 }

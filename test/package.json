@@ -3,7 +3,9 @@
   "scripts": {
     "install:lib": "node install_lib.js",
     "debug": "node debug.js",
-    "install:debug": "npm run install:lib && npm run debug"
+    "install:debug": "npm run install:lib && npm run debug",
+    "test": "hardhat test",
+    "install:test": "npm run install:lib && npm run test"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",
@@ -29,6 +31,9 @@
   },
   "dependencies": {
     "@ethcontracts/web3": "file:../ethcontracts-web3-1.0.0.tgz",
+    "@openzeppelin/contracts": "^4.8.0",
+    "ethers-to-web3": "^0.1.6",
+    "node-fetch": "^3.3.0",
     "web3": "^1.8.1"
   }
 }
