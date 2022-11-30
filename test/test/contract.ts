@@ -1,11 +1,12 @@
 import { ERC20 } from "@ethcontracts/core";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, network } from "hardhat";
 import { IDeployedPayload } from "./interface";
 import toWeb3Provider from "ethers-to-web3";
 import { Web3Client } from "@ethcontracts/web3";
 import { testERC20 } from "./erc20";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import Web3 from "web3";
 
 describe("contracts", () => {
 
@@ -69,6 +70,22 @@ describe("contracts", () => {
       // } catch (error) {
 
       // }
+    })
+  })
+
+  describe('wallet address', () => {
+    it('read only provider', async () => {
+      const client = new Web3Client(
+        new Web3.providers.HttpProvider('https://polygon-rpc.com')
+      );
+      await client.init();
+      expect(client.walletAddress).equal(undefined);
+    })
+
+    it('write provider', async () => {
+      const client = new Web3Client(toWeb3Provider(payload.deployer) as any);
+      await client.init();
+      expect(client.walletAddress).equal(payload.deployer.address);
     })
   })
 
