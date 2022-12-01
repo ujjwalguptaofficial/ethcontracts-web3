@@ -1,6 +1,7 @@
 import Web3 from "web3";
-import { BaseContract, BaseWeb3Client } from "@ethcontracts/core";
+import { BaseContract, BaseWeb3Client, ITransactionRequestConfig, TYPE_TRANSACTION_WRITE_RESULT } from "@ethcontracts/core";
 import { Web3Contract } from "./contract";
+import { toWriteResult } from "./utils";
 
 export class Web3Client extends BaseWeb3Client {
 
@@ -27,6 +28,17 @@ export class Web3Client extends BaseWeb3Client {
 
     get walletAddress(): string {
         return this.address_;
+    }
+
+    getBalance<T>(walleAddress?: string): Promise<T> {
+        return this.web3_.eth.getBalance(walleAddress || this.walletAddress).then(result => {
+            return result as T;
+        });
+    }
+
+    sendTransaction(config: ITransactionRequestConfig): TYPE_TRANSACTION_WRITE_RESULT {
+        const promiseResult = this.web3_.eth.sendTransaction(config);
+        return toWriteResult(promiseResult);
     }
 
 }

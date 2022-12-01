@@ -1,6 +1,6 @@
 import { Contract, } from "web3-eth-contract";
 import { PromiEvent } from "web3-core";
-import { txRequestConfigToWeb3 } from "./ethcontract_to_web3tx";
+import { toWeb3Config, toWriteResult } from "./utils";
 import { ILogger, ITransactionRequestConfig, BaseContractMethod, TYPE_GET_TRANSACTION_HASH, TYPE_GET_TRANSACTION_RECEIPT } from "@ethcontracts/core";
 
 export class ContractMethod extends BaseContractMethod {
@@ -12,14 +12,18 @@ export class ContractMethod extends BaseContractMethod {
     read<T>(tx: ITransactionRequestConfig): Promise<T> {
         this.logger.log("sending tx with config", tx);
         return this.method.call(
-            txRequestConfigToWeb3(tx) as any
+            toWeb3Config(tx) as any
         );
     }
 
     write(tx: ITransactionRequestConfig) {
         const promiseResult: PromiEvent<Contract> = this.method.send(
-            txRequestConfigToWeb3(tx) as any
+            toWeb3Config(tx) as any
         );
+
+        return toWriteResult(promiseResult);
+
+
         let onTransactionHash, onTransactionError;
         const txHashPromise = new Promise<string>((res, rej) => {
             onTransactionHash = res;
@@ -46,7 +50,7 @@ export class ContractMethod extends BaseContractMethod {
 
     estimateGas(tx: ITransactionRequestConfig): Promise<number> {
         return this.method.estimateGas(
-            txRequestConfigToWeb3(tx) as any
+            toWeb3Config(tx) as any
         );
     }
 

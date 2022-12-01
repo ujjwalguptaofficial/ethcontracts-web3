@@ -7,6 +7,8 @@ import { Web3Client } from "@ethcontracts/web3";
 import { testERC20 } from "./erc20";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import Web3 from "web3";
+import { TransactionReceipt } from "web3-core";
+
 
 describe("contracts", () => {
 
@@ -88,6 +90,76 @@ describe("contracts", () => {
       expect(client.walletAddress).equal(payload.deployer.address);
     })
   })
+
+  describe('check for balance on chain', async () => {
+    var client: Web3Client;
+
+    before(async () => {
+      client = new Web3Client(toWeb3Provider(payload.deployer as any));
+      await client.init();
+    })
+
+    it('when address provided', async () => {
+      const balance: any = await client.getBalance(payload.signer2.address);
+      expect(balance.toString()).equal('10000000000000000000000');
+    })
+
+    it('when address not provided', async () => {
+      const balance: any = await client.getBalance();
+      expect(balance.toString()).equal('9999997402096589066680');
+    })
+  })
+
+
+  describe('sendTransaction', async () => {
+
+    var client: Web3Client;
+
+    before(async () => {
+      client = new Web3Client(toWeb3Provider(payload.signer3 as any));
+      await client.init();
+    })
+
+
+    it('transfer ether to', async () => {
+      const from = payload.signer3.address.toLowerCase();
+      const to = payload.signer2.address;
+
+      const beforeBalanceFrom: string = await client.getBalance();
+      const beforeBalanceTo = await client.getBalance<string>(to);
+      const amount = 5;
+      const [getTxHash, getTxReceipt] = client.sendTransaction({
+        value: amount,
+        //ethers.utils.parseUnits(amount.toString(), "wei"),
+        // amount,
+        to: to,
+        from
+      });
+
+      const txHash = await getTxHash();
+      expect(txHash).to.be.string;
+      const receipt = await getTxReceipt<TransactionReceipt>();
+
+      expect(receipt.transactionHash).equal(txHash);
+      expect(receipt.blockHash).to.be.string;
+      expect(receipt.to.toLowerCase()).equal(to.toLowerCase());
+      expect(receipt.from.toLowerCase()).equal(from);
+
+      // const afterBalanceFrom = await client.getBalance<BigNumber>();
+      const afterBalanceFrom = await client.getBalance<string>();
+      const aftereBalanceTo = await client.getBalance(to);
+
+      console.log("beforeBalanceFrom", beforeBalanceFrom);
+      console.log("afterBalanceFrom", afterBalanceFrom);
+      console.log("diff", BigInt(beforeBalanceFrom) - BigInt(afterBalanceFrom));
+
+      // expect(afterBalanceFrom).equal(beforeBalanceFrom.sub(amount));
+      expect(aftereBalanceTo).equal(BigInt(beforeBalanceTo) + BigInt(amount));
+    })
+  })
+
+  return;
+
 
   describe("erc20", () => {
     testERC20(
