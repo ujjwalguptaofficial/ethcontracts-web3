@@ -158,9 +158,6 @@ describe("contracts", () => {
     })
   })
 
-  return;
-
-
   describe("erc20", () => {
     testERC20(
       payload, (user: SignerWithAddress) => {

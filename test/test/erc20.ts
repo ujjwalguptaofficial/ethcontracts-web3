@@ -111,6 +111,20 @@ export function testERC20(payload: IDeployedPayload, getWeb3Client: (user: Signe
         )
     })
 
+    it('increaseAllowance estimate gas', async () => {
+        const spender = payload.signer4.address;
+        const owner = payload.deployer.address;
+
+        // const [getTxReceipt] = erc20.increaseAllowance(spender, 100);
+
+        const method = erc20['contract'].method("increaseAllowance", spender, 100);
+
+        const gas = await method.estimateGas({
+
+        });
+        expect(gas).to.be.an('number').to.equal(30232);
+    })
+
     it('increaseAllowance', async () => {
         const spender = payload.signer4.address;
         const owner = payload.deployer.address;
